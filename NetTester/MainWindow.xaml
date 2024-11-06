@@ -1,0 +1,83 @@
+﻿<Window x:Class="NetTester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        Title="NetTester" Height="500" Width="1100"
+        ResizeMode="NoResize">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="HighContrastTheme.xaml"/>
+                <!-- Include High Contrast Theme -->
+                <!--<ResourceDictionary Source="DarkTheme.xaml"/>-->
+                <!--<ResourceDictionary Source="LightTheme.xaml"/>-->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Input and Theme Selector -->
+        <StackPanel Margin="10" Grid.Row="0" Grid.Column="0" Style="{DynamicResource {x:Type StackPanel}}">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5" Style="{DynamicResource {x:Type StackPanel}}">
+                    <Label Content="IP Address or Hostname:" VerticalAlignment="Center" Style="{DynamicResource {x:Type Label}}"/>
+                    <TextBox x:Name="txtAddress" Width="100" Margin="5,0,0,0" Style="{DynamicResource {x:Type TextBox}}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5" Style="{DynamicResource {x:Type StackPanel}}">
+                    <Label Content="Packet Count:" VerticalAlignment="Center" Style="{DynamicResource {x:Type Label}}"/>
+                    <TextBox x:Name="txtPacketCount" Width="60" Margin="5,0,0,0" Style="{DynamicResource {x:Type TextBox}}"/>
+                    <Label Content="Timeout (ms):" VerticalAlignment="Center" Style="{DynamicResource {x:Type Label}}"/>
+                    <TextBox x:Name="txtTimeout" Width="60" Margin="5,0,0,0" Style="{DynamicResource {x:Type TextBox}}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,5" Style="{DynamicResource {x:Type StackPanel}}">
+                    <Label Content="Refresh Interval (ms):" VerticalAlignment="Center" Style="{DynamicResource {x:Type Label}}"/>
+                    <TextBox x:Name="txtRefreshInterval" Width="60" Margin="5,0,0,0" Style="{DynamicResource {x:Type TextBox}}"/>
+                    <Label Content="Theme:" VerticalAlignment="Center" Style="{DynamicResource {x:Type Label}}"/>
+                    <ComboBox x:Name="themeSelector" Width="80" Margin="5,0" SelectionChanged="themeSelector_SelectionChanged" SelectedIndex="0" Style="{DynamicResource {x:Type ComboBox}}">
+                        <ComboBoxItem Content="Light" Style="{DynamicResource {x:Type ComboBoxItem}}"/>
+                        <ComboBoxItem Content="Dark" Style="{DynamicResource {x:Type ComboBoxItem}}"/>
+                        <ComboBoxItem Content="High Contrast" Style="{DynamicResource {x:Type ComboBoxItem}}"/>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Button Row -->
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Style="{DynamicResource {x:Type StackPanel}}">
+                <Button Width="125" x:Name="btnPing" Content="Ping" Click="btnPing_Click" Margin="5,0" Style="{DynamicResource {x:Type Button}}"/>
+                <Button Width="125" x:Name="btnStop" Content="Stop Ping" Click="btnStop_Click" Margin="5,0" Style="{DynamicResource {x:Type Button}}"/>
+                <Button Width="125" x:Name="btnTraceroute" Content="Traceroute" Click="btnTraceroute_Click" Margin="5,0" Style="{DynamicResource {x:Type Button}}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0" Style="{DynamicResource {x:Type StackPanel}}">
+                <Button Width="125" x:Name="btnDNSLookup" Content="DNS Lookup" Click="btnDNSLookup_Click" Margin="5,0" Style="{DynamicResource {x:Type Button}}"/>
+                <Button Width="125" Grid.Row="5" x:Name="btnExport" Content="Export History" Click="btnExport_Click" Margin="5,0" Style="{DynamicResource {x:Type Button}}"/>
+                <Button IsEnabled="False" Name="btnSpeedTest" Content="Network Speed Test" Width="125" Click="btnSpeedTest_Click" Margin="5, 0" Style="{DynamicResource {x:Type Button}}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Traceroute Results Section -->
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="10" Style="{DynamicResource {x:Type StackPanel}}">
+            <Label Content="Traceroute Results:" Style="{DynamicResource {x:Type Label}}"/>
+            <ListBox x:Name="lstTracerouteResults" Width="640" Height="220" Margin="0" Style="{DynamicResource {x:Type ListBox}}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0" Style="{DynamicResource {x:Type StackPanel}}">
+            <Label Content="Graphical Analysis:" Style="{DynamicResource {x:Type Label}}"/>
+            <lvc:CartesianChart x:Name="pingChart" Grid.Row="1" Grid.Column="1" Margin="10" Height="200" Style="{DynamicResource {x:Type lvc:CartesianChart}}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Style="{DynamicResource {x:Type StackPanel}}">
+            <TextBlock x:Name="txtStatus" Grid.Row="1" Grid.Column="0" Margin="5" FontWeight="Bold" Text="Status: Idle" Style="{DynamicResource {x:Type TextBlock}}"/>
+            <ListBox x:Name="lstResults" Grid.Row="1" Grid.Column="0" Style="{DynamicResource {x:Type ListBox}}"/>
+        </StackPanel>
+    </Grid>
+</Window>
